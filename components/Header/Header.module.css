@@ -25,6 +25,10 @@
 .header a:hover {
   color: #ddd;
 }
+.header a:hover span {
+  color: #444;
+  background-color: #e3b320;
+}
 
 .navigation {
   list-style-type: none;

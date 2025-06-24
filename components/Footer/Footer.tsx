@@ -11,8 +11,8 @@ export default function Footer({}) {
         <div className={css.wrap}>
           <p>Developer: Yuri Boblak</p>
           <p>
-            Contact us:
-            <a href="mailto:student@notehub.app"> student@notehub.app</a>
+            Contact us:{" "}
+            <a href="mailto:student@notehub.app">student@notehub.app</a>
           </p>
         </div>
       </div>
