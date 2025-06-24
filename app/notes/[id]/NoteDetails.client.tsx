@@ -16,6 +16,7 @@ export default function NoteDetailsClient({ id }: { id: number }) {
   const { data: note } = useQuery<Note, Error>({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
+    refetchOnMount: false, // Не робити повторний запит даних
   });
 
   const [isEditing, setIsEditing] = useState(false);
@@ -61,14 +62,14 @@ export default function NoteDetailsClient({ id }: { id: number }) {
     },
   });
 
-  // Помилка для useQuery, якщо нотатка не завантажилася
-  if (!note) {
-    throw new Error("Failed to load note");
-  }
-
-  // Викликаємо помилку для мутації, якщо вона сталася
+  // Помилка для мутації, якщо вона сталася
   if (mutationError) {
     throw mutationError;
+  }
+
+  // Якщо нотатка ще не завантажилася, Next.js використає loading.tsx
+  if (!note) {
+    return null;
   }
 
   const displayDate = note.createdAt

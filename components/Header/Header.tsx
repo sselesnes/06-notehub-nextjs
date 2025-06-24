@@ -8,7 +8,7 @@ export default function Header() {
   return (
     <header className={css.header}>
       <Link href="/" aria-label="Home">
-        NoteHub
+        Note<span>Hub</span>
       </Link>
       <nav aria-label="Main Navigation">
         <ul className={css.navigation}>

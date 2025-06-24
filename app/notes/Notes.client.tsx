@@ -1,5 +1,4 @@
-//notes\Notes.client.tsx
-
+//notes/Notes.client.tsx
 "use client";
 
 import css from "./NotesPage.module.css";
@@ -13,7 +12,11 @@ import { fetchNotes } from "@/lib/api";
 import type { FetchNotesResponse } from "@/lib/api";
 import NoteModal from "@/components/NoteModal/NoteModal";
 
-export default function App() {
+interface NotesClientProps {
+  initialData: FetchNotesResponse;
+}
+
+export default function NotesClient({ initialData }: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [searchQuery, setSearchQuery] = useState("");
   const [debouncedQuery] = useDebounce(searchQuery, 500);
@@ -23,6 +26,7 @@ export default function App() {
     queryKey: ["notes", { page, query: debouncedQuery }],
     queryFn: () => fetchNotes({ page, query: debouncedQuery, perPage: 12 }),
     placeholderData: keepPreviousData,
+    initialData: page === 1 && debouncedQuery === "" ? initialData : undefined,
   });
 
   if (error) {
