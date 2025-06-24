@@ -101,13 +101,9 @@ export default function NoteDetailsClient({ id }: { id: number }) {
       <div className={css.item}>
         <div className={css.header}>
           <h2>{note.title}</h2>
-          {!isEditing && (
-            <>
-              <button className={css.editBtn} onClick={handleEditClick}>
-                Edit note
-              </button>
-            </>
-          )}
+          <Link href="/notes">
+            <button className={css.closeBtn}>Close details</button>
+          </Link>
         </div>
         {isEditing ? (
           <form onSubmit={handleSave}>
@@ -167,9 +163,13 @@ export default function NoteDetailsClient({ id }: { id: number }) {
             <p className={css.content}>{note.content}</p>
             <div className={css.footer}>
               <p className={css.date}>{displayDate}</p>
-              <Link href="/notes">
-                <button className={css.closeBtn}>Close note</button>
-              </Link>
+              {!isEditing && (
+                <>
+                  <button className={css.editBtn} onClick={handleEditClick}>
+                    Edit note
+                  </button>
+                </>
+              )}
             </div>
           </>
         )}

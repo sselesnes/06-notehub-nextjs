@@ -8,23 +8,27 @@ import { QueryClient } from "@tanstack/react-query";
 export default async function NoteDetails({
   params,
 }: {
-  params: { id?: string };
+  // params should be awaited before using its properties
+  params: Promise<{ id: string }>;
 }) {
   const queryClient = new QueryClient();
 
-  // Перевірка і валідація id перед асинхронними операціями
-  if (!params?.id) {
+  // Очікуємо на resolve об’єкта params
+  const resolvedParams = await params;
+
+  // Перевірка та валідація id перед асинхронними операціями
+  if (!resolvedParams?.id) {
     return <p>Invalid note ID</p>;
   }
 
-  const idString = params.id;
+  const idString = resolvedParams.id;
   const id = parseInt(idString, 10);
 
   if (isNaN(id)) {
     return <p>Invalid note ID</p>;
   }
 
-  // Асинхронне завантаження даних
+  // Завантаження нотатки
   await queryClient.prefetchQuery({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
