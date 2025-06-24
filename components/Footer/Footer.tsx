@@ -3,9 +3,7 @@
 import React from "react";
 import css from "./Footer.module.css";
 
-type Props = {};
-
-export default function Footer({}: Props) {
+export default function Footer({}) {
   return (
     <footer className={css.footer}>
       <div className={css.content}>
