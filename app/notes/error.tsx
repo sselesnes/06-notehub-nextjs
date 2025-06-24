@@ -1,4 +1,4 @@
-//notes\[id\]error.tsx
+//notes\error.tsx
 
 "use client";
 

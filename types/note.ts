@@ -1,4 +1,4 @@
-//note.ts
+//types\note.ts
 
 export interface Note {
   id: number;

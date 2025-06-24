@@ -1,4 +1,4 @@
-//notes/[id]/page.tsx
+//notes\[id]\page.tsx
 
 import { dehydrate, HydrationBoundary } from "@tanstack/react-query";
 import { fetchNoteById } from "@/lib/api";

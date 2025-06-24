@@ -1,4 +1,4 @@
-//Notes/page.tsx
+//Notes\page.tsx
 
 import NotesClient from "./Notes.client";
 import styles from "./NotesPage.module.css";

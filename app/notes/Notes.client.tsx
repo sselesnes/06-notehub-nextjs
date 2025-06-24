@@ -1,4 +1,4 @@
-//Notes.client.tsx
+//notes\Notes.client.tsx
 
 "use client";
 
@@ -11,8 +11,6 @@ import NoteList from "@/components/NoteList/NoteList";
 import Pagination from "@/components/Pagination/Pagination";
 import { fetchNotes } from "@/lib/api";
 import type { FetchNotesResponse } from "@/lib/api";
-import Loading from "@/components/Loading/Loading";
-import Error from "@/components/Error/Error";
 import NoteModal from "@/components/NoteModal/NoteModal";
 
 export default function App() {
@@ -21,11 +19,15 @@ export default function App() {
   const [debouncedQuery] = useDebounce(searchQuery, 500);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery<FetchNotesResponse, Error>({
+  const { data, error } = useQuery<FetchNotesResponse, Error>({
     queryKey: ["notes", { page, query: debouncedQuery }],
     queryFn: () => fetchNotes({ page, query: debouncedQuery, perPage: 12 }),
     placeholderData: keepPreviousData,
   });
+
+  if (error) {
+    throw error;
+  }
 
   const handlePageChange = (selectedItem: { selected: number }) => {
     setPage(selectedItem.selected + 1);
@@ -51,8 +53,6 @@ export default function App() {
           Create note +
         </button>
       </header>
-      {isLoading && <Loading />}
-      {error && <Error error={error} />}
       {data?.notes && data.notes.length > 0 && <NoteList notes={data.notes} />}
       {data?.notes && data.notes.length === 0 && <p>Nothing found</p>}
       {isModalOpen && <NoteModal onClose={() => setIsModalOpen(false)} />}

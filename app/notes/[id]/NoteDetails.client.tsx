@@ -1,4 +1,4 @@
-//notes/[id]/NotesDetails.client.tsx
+//notes\[id]\NotesDetails.client.tsx
 
 "use client";
 
@@ -13,16 +13,13 @@ import Link from "next/link";
 import type { PaginatedNotes } from "@/lib/api";
 
 export default function NoteDetailsClient({ id }: { id: number }) {
-  const {
-    data: note,
-    isLoading,
-    error,
-  } = useQuery<Note, Error>({
+  const { data: note } = useQuery<Note, Error>({
     queryKey: ["note", id],
     queryFn: () => fetchNoteById(id),
   });
 
   const [isEditing, setIsEditing] = useState(false);
+  const [mutationError, setMutationError] = useState<Error | null>(null); // Стан для помилки мутації
   const queryClient = useQueryClient();
   const titleRef = useRef<HTMLInputElement>(null);
   const contentRef = useRef<HTMLTextAreaElement>(null);
@@ -57,18 +54,21 @@ export default function NoteDetailsClient({ id }: { id: number }) {
         },
       );
       setIsEditing(false);
+      setMutationError(null); // Очищаємо помилку після успішного збереження
     },
-    onError: (error) => {
-      console.error("Error updating note:", error);
+    onError: (error: Error) => {
+      setMutationError(error); // Зберігаємо помилку в стані
     },
   });
 
-  if (isLoading) {
-    return <p>Loading, please wait...</p>;
+  // Помилка для useQuery, якщо нотатка не завантажилася
+  if (!note) {
+    throw new Error("Failed to load note");
   }
 
-  if (error || !note) {
-    return <p>Something went wrong.</p>;
+  // Викликаємо помилку для мутації, якщо вона сталася
+  if (mutationError) {
+    throw mutationError;
   }
 
   const displayDate = note.createdAt
@@ -77,6 +77,7 @@ export default function NoteDetailsClient({ id }: { id: number }) {
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setMutationError(null); // Очищаємо попередню помилку при початку редагування
   };
 
   const handleSave = (e: React.FormEvent) => {
@@ -94,6 +95,7 @@ export default function NoteDetailsClient({ id }: { id: number }) {
 
   const handleCancel = () => {
     setIsEditing(false);
+    setMutationError(null); // Очищаємо помилку при скасуванні
   };
 
   return (
