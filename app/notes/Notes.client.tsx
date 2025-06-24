@@ -1,4 +1,5 @@
 //notes/Notes.client.tsx
+
 "use client";
 
 import css from "./NotesPage.module.css";
@@ -34,7 +35,7 @@ export default function NotesClient({ initialData }: NotesClientProps) {
   }
 
   const handlePageChange = (selectedItem: { selected: number }) => {
-    setPage(selectedItem.selected + 1);
+    setPage(selectedItem.selected + 1); // Для нульової індексації
   };
 
   const handleSearchChange = (value: string) => {

@@ -31,11 +31,11 @@ export default function NoteList({ notes }: NoteListProps) {
           <p className={css.content}>{note.content}</p>
           <div className={css.footer}>
             <span className={css.tag}>{note.tag}</span>
-            <Link href={`/notes/${note.id}`} className={css.button}>
+            <Link href={`/notes/${note.id}`} className={css.detailsBtn}>
               View details
             </Link>
             <button
-              className={css.button}
+              className={css.deleteBtn}
               onClick={() => handleDelete(note.id)}
               disabled={deleteMutation.isPending}
             >
